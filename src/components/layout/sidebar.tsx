@@ -6,7 +6,7 @@ import React from 'react';
 // import { SidebarItem } from './sidebar-item';
 import Link from 'next/link';
 // import { ClerkLoaded, ClerkLoading, UserButton } from '@clerk/nextjs';
-import { Loader } from 'lucide-react';
+import { Circle, Loader } from 'lucide-react';
 import { useLogout, useMenu } from '@refinedev/core';
 import { SidebarItem } from './sidebar-item';
 import { ModeToggle } from '@components/theme-toggle';
@@ -17,6 +17,10 @@ import {
   AccordionTrigger
 } from '@components/ui/accordion';
 import { links } from './links';
+import { themes } from '@components/colors/themes';
+import { Button } from '@components/ui/button';
+import { useTheme } from 'next-themes';
+import { useSetTheme } from '@components/colors/setTheme';
 
 interface SidebarProps {
   className?: string;
@@ -88,7 +92,8 @@ const SidebarLink = ({
 const Sidebar: React.FC<SidebarProps> = ({ className }) => {
   const { mutate: logout } = useLogout();
   const { menuItems, selectedKey } = useMenu();
-
+  const { resolvedTheme: mode } = useTheme();
+  const { apply } = useSetTheme();
   return (
     <div
       className={cn(
@@ -135,6 +140,29 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         <SidebarItem href="/shop" iconSrc="/shop.svg" label="shop" /> */}
       </div>
       <div className="p-4 ml-auto">
+        <div className="flex flex-wrap gap-2 mb-3">
+          {themes.map((theme) => {
+            return (
+              <div
+                className="cursor-pointer"
+                title={theme.label}
+                onClick={() => apply(theme.name)}
+                key={theme.label}
+              >
+                <div
+                  style={
+                    {
+                      '--theme-primary': `hsl(${
+                        theme?.activeColor[mode === 'dark' ? 'dark' : 'light']
+                      })`
+                    } as React.CSSProperties
+                  }
+                  className={`h-6 w-6 bg-[--theme-primary] rounded-full `}
+                ></div>
+              </div>
+            );
+          })}
+        </div>
         <ModeToggle />
       </div>
     </div>
