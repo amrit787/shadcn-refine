@@ -1,23 +1,17 @@
-import { AuthPage } from "@components/auth-page";
-import { authProviderServer } from "@providers/auth-provider";
-import { redirect } from "next/navigation";
+'use client';
+import { AuthPage } from '@components/auth-page';
+import { authProvider } from '@providers/auth-provider';
+import { redirect } from 'next/navigation';
+import { useAuthenticated } from '../../../hooks/useAuthenticated';
+import { useIsAuthenticated } from '@refinedev/core';
 
-export default async function Login() {
-  const data = await getData();
+export default function Login() {
+  const { data } = useIsAuthenticated();
 
-  if (data.authenticated) {
-    redirect(data?.redirectTo || "/");
+  if (data?.authenticated) {
+    redirect(data?.redirectTo || '/');
   }
+  console.log(data);
 
   return <AuthPage type="login" />;
-}
-
-async function getData() {
-  const { authenticated, redirectTo, error } = await authProviderServer.check();
-
-  return {
-    authenticated,
-    redirectTo,
-    error,
-  };
 }

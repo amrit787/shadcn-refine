@@ -1,70 +1,62 @@
-"use client";
+'use client';
 
-import { AuthBindings } from "@refinedev/core";
-import Cookies from "js-cookie";
-
-const mockUsers = [
-  {
-    name: "John Doe",
-    email: "johndoe@mail.com",
-    roles: ["admin"],
-    avatar: "https://i.pravatar.cc/150?img=1",
-  },
-  {
-    name: "Jane Doe",
-    email: "janedoe@mail.com",
-    roles: ["editor"],
-    avatar: "https://i.pravatar.cc/150?img=1",
-  },
-];
+import { API_URL } from '@providers/data-provider';
+import { AuthBindings } from '@refinedev/core';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export const authProvider: AuthBindings = {
-  login: async ({ email, username, password, remember }) => {
+  login: async ({ email, password }) => {
     // Suppose we actually send a request to the back end here.
-    const user = mockUsers[0];
-
-    if (user) {
-      Cookies.set("auth", JSON.stringify(user), {
-        expires: 30, // 30 days
-        path: "/",
+    try {
+      const res = await axios.post(`${API_URL}/auth/login`, {
+        email,
+        password
       });
+      const { user, tokens } = res.data as {
+        user: { id: string; email: string };
+        tokens: { access: { token: string } };
+      };
+      Cookies.set('accessToken', tokens.access.token);
+      localStorage.setItem('accessToken', tokens.access.token);
       return {
         success: true,
-        redirectTo: "/",
+        redirectTo: '/'
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: {
+          name: '',
+          message:
+            error.response?.data?.message || 'Invalid username or password'
+        }
       };
     }
-
-    return {
-      success: false,
-      error: {
-        name: "LoginError",
-        message: "Invalid username or password",
-      },
-    };
   },
   logout: async () => {
-    Cookies.remove("auth", { path: "/" });
+    localStorage.clear();
     return {
       success: true,
-      redirectTo: "/login",
+      redirectTo: '/login'
     };
   },
   check: async () => {
-    const auth = Cookies.get("auth");
+    const auth = localStorage.getItem('accessToken');
     if (auth) {
       return {
-        authenticated: true,
+        authenticated: true
       };
     }
 
     return {
       authenticated: false,
       logout: true,
-      redirectTo: "/login",
+      redirectTo: '/login'
     };
   },
   getPermissions: async () => {
-    const auth = Cookies.get("auth");
+    const auth = Cookies.get('auth');
     if (auth) {
       const parsedUser = JSON.parse(auth);
       return parsedUser.roles;
@@ -72,7 +64,7 @@ export const authProvider: AuthBindings = {
     return null;
   },
   getIdentity: async () => {
-    const auth = Cookies.get("auth");
+    const auth = Cookies.get('auth');
     if (auth) {
       const parsedUser = JSON.parse(auth);
       return parsedUser;
@@ -82,10 +74,10 @@ export const authProvider: AuthBindings = {
   onError: async (error) => {
     if (error.response?.status === 401) {
       return {
-        logout: true,
+        logout: true
       };
     }
 
     return { error };
-  },
+  }
 };

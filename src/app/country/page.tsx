@@ -1,6 +1,11 @@
 'use client';
 
-import { GetManyResponse, useMany, useNavigation } from '@refinedev/core';
+import {
+  GetManyResponse,
+  useList,
+  useMany,
+  useNavigation
+} from '@refinedev/core';
 import { useTable } from '@refinedev/react-table';
 import { ColumnDef, flexRender } from '@tanstack/react-table';
 import React from 'react';
@@ -39,6 +44,7 @@ import {
   SelectValue
 } from '@components/ui/select';
 import { Button } from '@components/ui/button';
+import ListLayout from '@components/layout/listLayout';
 
 export default function BlogPostList() {
   const columns = React.useMemo<ColumnDef<any>[]>(
@@ -49,50 +55,26 @@ export default function BlogPostList() {
         header: 'ID'
       },
       {
-        id: 'title',
-        accessorKey: 'title',
-        header: 'Title'
+        id: 'name',
+        accessorKey: 'name',
+        header: 'Name'
       },
       {
-        id: 'content',
-        accessorKey: 'content',
-        header: 'Content'
-      },
-      {
-        id: 'category',
-        header: 'Category',
-        accessorKey: 'category',
+        id: 'states',
+        header: 'states',
+        accessorKey: 'states',
         cell: function render({ getValue, table }) {
-          const meta = table.options.meta as {
-            categoryData: GetManyResponse;
-          };
-
-          try {
-            const category = meta.categoryData?.data?.find(
-              (item) => item.id == getValue<any>()?.id
-            );
-
-            return category?.title ?? 'Loading...';
-          } catch (error) {
-            return null;
-          }
+          const states = getValue() as any;
+          return (
+            <>
+              <div className="flex gap-2">
+                {states?.map((item) => item.name)}
+              </div>
+            </>
+          );
         }
       },
-      {
-        id: 'status',
-        accessorKey: 'status',
-        header: 'Status'
-      },
-      {
-        id: 'createdAt',
-        accessorKey: 'createdAt',
-        header: 'Created At',
-        cell: function render({ getValue }) {
-          return new Date(getValue<any>()).toLocaleString(undefined, {
-            timeZone: 'UTC'
-          });
-        }
-      },
+
       {
         id: 'actions',
         accessorKey: 'id',
@@ -102,14 +84,14 @@ export default function BlogPostList() {
             <div className="flex row wrap gap-2">
               <Button
                 onClick={() => {
-                  show('blog_posts', getValue() as string);
+                  show('country', getValue() as string);
                 }}
               >
                 <Eye />
               </Button>
               <Button
                 onClick={() => {
-                  edit('blog_posts', getValue() as string);
+                  edit('country', getValue() as string);
                 }}
                 variant={'outline'}
               >
@@ -144,31 +126,10 @@ export default function BlogPostList() {
     columns
   });
 
-  const { data: categoryData } = useMany({
-    resource: 'categories',
-    ids:
-      tableData?.data?.map((item) => item?.category?.id).filter(Boolean) ?? [],
-    queryOptions: {
-      enabled: !!tableData?.data
-    }
-  });
-
-  setOptions((prev) => ({
-    ...prev,
-    meta: {
-      ...prev.meta,
-      categoryData
-    }
-  }));
-
   return (
-    <div>
-      <div className="p-4 flex justify-between">
-        <h1>{'List'}</h1>
-        <Button onClick={() => create('blog_posts')}>{'Create'}</Button>
-      </div>
+    <ListLayout>
       <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableCaption>A list of countries.</TableCaption>
 
         <TableHeader>
           {getHeaderGroups().map((headerGroup) => (
@@ -197,11 +158,11 @@ export default function BlogPostList() {
           ))}
         </TableBody>
 
-        <TableFooter className="w-full">
+        <TableFooter className="">
           <TableRow>
             <TableCell colSpan={12}>
               {' '}
-              <div className="mt-8 w-full">
+              <div className="mt-8 ">
                 <Pagination className="">
                   <PaginationContent className="ml-auto">
                     <PaginationItem className="flex items-center gap-x-4 justify-center">
@@ -285,6 +246,6 @@ export default function BlogPostList() {
       </Table>
 
       <div className="mt-24"></div>
-    </div>
+    </ListLayout>
   );
 }

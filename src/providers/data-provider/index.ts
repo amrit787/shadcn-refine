@@ -1,7 +1,10 @@
-"use client";
+'use client';
 
-import dataProviderSimpleRest from "@refinedev/simple-rest";
+import axiosInstance from '@lib/axios';
+import dataProviderSimpleRest from '@refinedev/simple-rest';
+import axios, { Axios } from 'axios';
+import { customDataProvider } from './dataProvider';
 
-const API_URL = "https://api.fake-rest.refine.dev";
+export const API_URL = 'http://localhost:4000/api';
 
-export const dataProvider = dataProviderSimpleRest(API_URL);
+export const dataProvider = customDataProvider(API_URL, axiosInstance);
