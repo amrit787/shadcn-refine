@@ -9,11 +9,11 @@ import DesktopHeader from './desktopHeader';
 
 export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div>
+    <div className="themee">
       {/* <Menu /> */}
       <MobileHeader />
       <DesktopHeader />
-      <Sidebar className="hidden lg:flex" />
+      <Sidebar className="hidden  lg:flex" />
       <div className="content">
         <main className="lg:pl-[300px]  h-full pt-[50px] lg:pt-0">
           <Breadcrumbs />

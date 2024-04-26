@@ -35,7 +35,7 @@ export const useSetTheme = () => {
   };
 
   function apply(name: (typeof themeNames)[number]) {
-    let r = document.querySelector(`${mode === 'dark' ? '.dark' : '.light'}`);
+    let r = document.querySelector('.themee');
 
     setTheme(r, mode === 'dark' ? 'dark' : 'light', name);
   }
