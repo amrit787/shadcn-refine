@@ -20,7 +20,8 @@ import { links } from './links';
 import { themes } from '@components/colors/themes';
 import { Button } from '@components/ui/button';
 import { useTheme } from 'next-themes';
-import { useSetTheme } from '@components/colors/setTheme';
+import { useColor } from '../../../hooks/useColor';
+import ColorPicker from '@components/colors/colorPicker';
 
 interface SidebarProps {
   className?: string;
@@ -28,7 +29,7 @@ interface SidebarProps {
 
 const SidebarSectionSeperator = ({ label }: { label: string }) => {
   return (
-    <div className="text-[11px]  mt-5 font-semibold uppercase text-muted">
+    <div className="text-[11px]  mt-5 font-semibold uppercase text-black dark:text-white">
       {label}
       <div className="bg-primary h-[2px] w-7 mt-[2px]"></div>
     </div>
@@ -56,7 +57,7 @@ const SidebarLink = ({
     return (
       <Accordion className="" type="single" collapsible>
         <AccordionItem value="item-1">
-          <AccordionTrigger className="hover:bg-primary p-0 px-2 text-white  rounded">
+          <AccordionTrigger className="  p-0 px-2   rounded">
             <SidebarItem
               key={link.label}
               href={link.href}
@@ -93,7 +94,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
   const { mutate: logout } = useLogout();
   const { menuItems, selectedKey } = useMenu();
   const { resolvedTheme: mode } = useTheme();
-  const { apply } = useSetTheme();
+  const [color, setColor] = useColor();
   return (
     <div
       className={cn(
@@ -104,12 +105,12 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       <Link href={'/learn'}>
         <div className="pt-8 dark:bg-slate-700 bg-slate-100 pl-4 pb-7 flex items-center gap-x-3">
           {/* <Image src="/mascot.svg" height={40} width={40} alt="Mascot" /> */}
-          <h1 className="text- font-semibold text-primary tracking-wide">
-            ERP Management System
+          <h1 className="text- font-semibold text-foreground tracking-wide">
+            Shad test
           </h1>
         </div>
       </Link>
-      <div className="flex mt-3 p-2 bg-[#3f4d67] flex-col gap-y-2 flex-1">
+      <div className="flex mt-3 p-2  flex-col gap-y-2 flex-1">
         {/* {menuItems.map((item) => (
           <SidebarItem
             key={item.key}
@@ -146,7 +147,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               <div
                 className="cursor-pointer"
                 title={theme.label}
-                onClick={() => apply(theme.name)}
+                onClick={() => setColor(theme.name)}
                 key={theme.label}
               >
                 <div
@@ -163,6 +164,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
             );
           })}
         </div>
+        <ColorPicker />
         <ModeToggle />
       </div>
     </div>

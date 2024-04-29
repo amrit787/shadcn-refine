@@ -85,7 +85,7 @@ export default function CountryForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 p-4 mt-4 ring-gray-100 ring-2"
+        className="space-y-8 p-4 mt-4 rounded-md ring-gray-100 ring-2"
       >
         <FormField
           control={form.control}

@@ -13,6 +13,7 @@ import { dataProvider } from '@providers/data-provider';
 import '@styles/global.css';
 import { FlagIcon, MapIcon } from 'lucide-react';
 import { ThemeProvider } from '@components/theme-provider';
+import { ThemeSwitcher } from '@components/colors/themeSwitcher';
 
 export const metadata: Metadata = {
   title: 'Refine',
@@ -22,16 +23,6 @@ export const metadata: Metadata = {
   }
 };
 
-const themes = [
-  'light',
-  'dark',
-  'blue',
-  'blue-dark',
-  'orange',
-  'orange-dark',
-  'green',
-  'green-dark'
-];
 export default function RootLayout({
   children
 }: Readonly<{
@@ -39,8 +30,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="theme-light test">
         <Suspense>
+          <ThemeSwitcher />
           {/* <GitHubBanner /> */}
           <RefineKbarProvider>
             <DevtoolsProvider>
