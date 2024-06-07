@@ -19,7 +19,7 @@ export const SidebarItem = ({ label, icon, href }: Props) => {
   return (
     <Button
       variant={active ? 'sidebarOutline' : 'sidebar'}
-      className="justify-start w-full  h-[52px]"
+      className="justify-start w-full group-hover:text-background  h-[52px]"
       asChild
     >
       <Link className="flex  text-lg gap-4 " href={href}>

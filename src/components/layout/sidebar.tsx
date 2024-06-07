@@ -6,7 +6,7 @@ import React from 'react';
 // import { SidebarItem } from './sidebar-item';
 import Link from 'next/link';
 // import { ClerkLoaded, ClerkLoading, UserButton } from '@clerk/nextjs';
-import { Circle, Loader } from 'lucide-react';
+import { Circle, LayoutDashboard, Loader } from 'lucide-react';
 import { useLogout, useMenu } from '@refinedev/core';
 import { SidebarItem } from './sidebar-item';
 import { ModeToggle } from '@components/theme-toggle';
@@ -57,7 +57,7 @@ const SidebarLink = ({
     return (
       <Accordion className="" type="single" collapsible>
         <AccordionItem value="item-1">
-          <AccordionTrigger className="  p-0 px-2   rounded">
+          <AccordionTrigger className="hover:bg-primary group text-foreground hover:text-background  p-0 px-2   rounded">
             <SidebarItem
               key={link.label}
               href={link.href}
@@ -103,11 +103,12 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       )}
     >
       <Link href={'/learn'}>
-        <div className="pt-8 dark:bg-slate-700 bg-slate-100 pl-4 pb-7 flex items-center gap-x-3">
+        <div className="pt-4 pb-5  bg-muted text-primary   flex items-center justify-center gap-x-3">
           {/* <Image src="/mascot.svg" height={40} width={40} alt="Mascot" /> */}
-          <h1 className="text- font-semibold text-foreground tracking-wide">
+          <h1 className="text-xl font-bold text-center  tracking-wide">
             Shad test
-          </h1>
+          </h1>{' '}
+          <LayoutDashboard />{' '}
         </div>
       </Link>
       <div className="flex mt-3 p-2  flex-col gap-y-2 flex-1">

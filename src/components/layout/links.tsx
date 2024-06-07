@@ -28,7 +28,7 @@ export const links = [
       {
         label: 'dashboard',
         icon: <LayoutDashboard />,
-        href: '/'
+        href: '/country'
       }
     ]
   },

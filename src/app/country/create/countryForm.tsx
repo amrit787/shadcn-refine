@@ -53,25 +53,26 @@ export default function CountryForm({
   //       label: item.name,
   //       value: item.value
   //     })) || [];
-  const form = refineForm({});
+  const forms = refineForm({});
   const {
-    refineCore: { onFinish }
-  } = form;
-  // const form = useForm<CountryFormType>({
-  //   resolver: zodResolver(formSchema),
+    refineCore: { onFinish },
+    register
+  } = forms;
+  const form = useForm<CountryFormType>({
+    resolver: zodResolver(formSchema),
 
-  //   defaultValues: {
-  //     name: initailValues?.name || '',
-  //     code: initailValues?.code || ''
-  //     //   states: initailStates
-  //   }
-  // });
+    defaultValues: {
+      name: initailValues?.name || '',
+      code: initailValues?.code || ''
+      //   states: initailStates
+    }
+  });
 
-  //   const { options: stateOptions } = useSelect({
-  //     resource: 'state',
-  //     optionLabel: 'name',
-  //     optionValue: 'id'
-  //   });
+  const { options: stateOptions } = useSelect({
+    resource: 'state',
+    optionLabel: 'name',
+    optionValue: 'id'
+  });
 
   const onSubmit = (values: any) => {
     // if (editMode) {
@@ -88,7 +89,7 @@ export default function CountryForm({
         className="space-y-8 p-4 mt-4 rounded-md ring-gray-100 ring-2"
       >
         <FormField
-          control={form.control}
+          control={forms.control}
           name="name"
           render={({ field }) => (
             <FormItem>
@@ -102,7 +103,7 @@ export default function CountryForm({
           )}
         />
         <FormField
-          control={form.control}
+          control={forms.control}
           name="code"
           render={({ field }) => (
             <FormItem>

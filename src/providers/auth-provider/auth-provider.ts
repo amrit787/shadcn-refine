@@ -50,9 +50,9 @@ export const authProvider: AuthBindings = {
     }
 
     return {
-      authenticated: false,
-      logout: true,
-      redirectTo: '/login'
+      authenticated: true
+      // logout: true,
+      // redirectTo: '/login'
     };
   },
   getPermissions: async () => {

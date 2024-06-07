@@ -59,11 +59,11 @@ export const ColorInput = ({ property }: { property: CssProperty }) => {
       <div
         // onChange={handleChange}
         // style={{'--theme-primary':''}}
-        className={`cursor-pointer rounded-full h-6 w-6 overflow-hidden bg-[hsl(var(--primary))]`}
+        className={`cursor-pointer shadow-lg dark:shadow-white rounded-full h-6 w-6 overflow-hidden bg-[hsl(var(--${property}))]`}
       >
         <input
           name="primary"
-          className="w-10 h-10 p-5 focus:bg-transparent active:bg-transparent  fill-transparent outline-dashed bg-transparent border-none border-transparent text-neutral-200 bg-rose-500 rounded-full border-0 outline-0"
+          className="w-10 cursor-pointer h-10 p-5 focus:bg-transparent active:bg-transparent  fill-transparent outline-dashed bg-transparent border-none border-transparent text-neutral-200 bg-rose-500 rounded-full border-0 outline-0"
           onChange={handleChange}
           type="color"
         />

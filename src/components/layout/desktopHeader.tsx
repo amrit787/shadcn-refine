@@ -10,7 +10,7 @@ interface DesktopHeaderProps {
 
 const DesktopHeader: React.FC<DesktopHeaderProps> = (props) => {
   return (
-    <nav className="hidden pl-[300px] px-6 h-[50px] lg:flex items-center border-b  top-0 w-full z-50">
+    <nav className="hidden ml-[300px] px-6 h-[50px] lg:flex items-center border-b  top-0 w-full z-50">
       <div className="p-2 cursor-pointer">
         <MenuIcon />
       </div>
